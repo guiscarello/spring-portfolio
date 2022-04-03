@@ -12,7 +12,7 @@ public class WorkExperienceDTO {
     private String companyLogoPath = null;
     private String companyName;
     private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate endDate = null;
     private String position;
     private String description;
     private String tel;

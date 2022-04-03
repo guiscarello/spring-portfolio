@@ -36,13 +36,28 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
     }
 
     @Override
-    public WorkExperience addNewWorkExperience(WorkExperience newWorkExperience){
-        WorkExperience workExperience = workExperienceRepo.save(newWorkExperience);
+    public WorkExperience addNewWorkExperience(WorkExperienceDTO newWorkExperienceDTO){
+        WorkExperience newWorkExperience = new WorkExperience();
+        newWorkExperience.setCompanyName(newWorkExperienceDTO.getCompanyName());
 
-        workExperience.setCompanyLogoPath(
-                this.createPathToFile(workExperience)
+        if(newWorkExperienceDTO.getCompanyLogoPath() != null){
+            newWorkExperience.setCompanyLogoPath(newWorkExperienceDTO.getCompanyLogoPath());
+        }
+        if(newWorkExperienceDTO.getEndDate() != null){
+            newWorkExperience.setEndDate(newWorkExperienceDTO.getEndDate());
+        }
+        newWorkExperience.setDescription(newWorkExperienceDTO.getDescription());
+        newWorkExperience.setStartDate(newWorkExperienceDTO.getStartDate());
+        newWorkExperience.setPosition(newWorkExperienceDTO.getPosition());
+        newWorkExperience.setTel(newWorkExperienceDTO.getTel());
+        newWorkExperience.setCurrentWork(newWorkExperienceDTO.isCurrentWork());
+
+        final WorkExperience addedWorkExperience = workExperienceRepo.save(newWorkExperience);
+        addedWorkExperience.setCompanyLogoPath(
+                this.createPathToFile(newWorkExperience)
         );
-        return workExperience;
+
+        return addedWorkExperience;
     }
 
     @Override

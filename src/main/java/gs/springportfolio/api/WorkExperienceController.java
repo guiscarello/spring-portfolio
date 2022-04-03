@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -50,26 +51,30 @@ public class WorkExperienceController {
             @RequestParam("companyName") String companyName,
             @RequestParam("companyLogo") MultipartFile companyLogo,
             @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
             @RequestParam("position") String position,
             @RequestParam("description") String description,
             @RequestParam("tel") String  tel,
-            @RequestParam("currentWork") boolean currentWork
+            @RequestParam("currentWork") boolean isCurrentWork
     ) {
         String  companyLogoPath = photoFileManagerService.uploadFile(companyLogo, uploadFolder);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        WorkExperience newWorkExperience =  workExperienceServiceImpl.addNewWorkExperience(
-            new WorkExperience(
-                    companyLogoPath,
-                    companyName,
-                    LocalDate.parse(startDate, formatter),
-                    LocalDate.parse(endDate, formatter),
-                    position,
-                    description,
-                    tel,
-                    currentWork
-            )
-        );
+        LocalDate start = LocalDate.parse(startDate, formatter);
+
+        WorkExperienceDTO workExperienceDTO = new WorkExperienceDTO();
+        workExperienceDTO.setCompanyLogoPath(companyLogoPath);
+        workExperienceDTO.setCompanyName(companyName);
+        workExperienceDTO.setCurrentWork(isCurrentWork);
+        workExperienceDTO.setDescription(description);
+        workExperienceDTO.setStartDate(LocalDate.parse(startDate, formatter));
+        if(!Objects.equals(endDate, "") ){
+            workExperienceDTO.setEndDate(LocalDate.parse(endDate, formatter));
+        }
+        workExperienceDTO.setPosition(position);
+        workExperienceDTO.setDescription(description);
+        workExperienceDTO.setTel(tel);
+
+        WorkExperience newWorkExperience =  workExperienceServiceImpl.addNewWorkExperience(workExperienceDTO);
         return ResponseEntity.ok(newWorkExperience);
     }
 
@@ -87,16 +92,20 @@ public class WorkExperienceController {
 
     ){
         WorkExperienceDTO workExperienceDTO = new WorkExperienceDTO();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         if(companyLogo != null) {
             String companyLogoPath = photoFileManagerService.uploadFile(companyLogo, uploadFolder);
             workExperienceDTO.setCompanyLogoPath(companyLogoPath);
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if(!Objects.equals(endDate, "null")){
+            workExperienceDTO.setEndDate(LocalDate.parse(endDate, formatter));
+        }
+        
         workExperienceDTO.setCompanyName(companyName);
         workExperienceDTO.setCurrentWork(isCurrentWork);
         workExperienceDTO.setDescription(description);
         workExperienceDTO.setStartDate(LocalDate.parse(startDate, formatter));
-        workExperienceDTO.setEndDate(LocalDate.parse(endDate, formatter));
         workExperienceDTO.setPosition(position);
         workExperienceDTO.setDescription(description);
         workExperienceDTO.setTel(tel);

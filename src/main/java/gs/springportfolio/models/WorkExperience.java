@@ -49,10 +49,16 @@ public class WorkExperience {
     }
 
     public Integer getDurationYears() {
+        if(this.getEndDate() == null){
+            return Period.between(this.getStartDate(), LocalDate.now()).getYears();
+        }
         return Period.between(this.getStartDate(), this.getEndDate()).getYears();
     }
 
     public Integer getDurationMonths() {
-       return Period.between(this.getStartDate(), this.getEndDate()).getMonths();
+        if(this.getEndDate() == null){
+            return Period.between(this.getStartDate(), LocalDate.now()).getMonths();
+        }
+        return Period.between(this.getStartDate(), this.getEndDate()).getMonths();
     }
 }

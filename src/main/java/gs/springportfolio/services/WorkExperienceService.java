@@ -9,7 +9,7 @@ import java.util.List;
 public interface WorkExperienceService {
 
     List<WorkExperience> getAllWorkExperiences();
-    WorkExperience addNewWorkExperience(WorkExperience newWorkExperience);
+    WorkExperience addNewWorkExperience(WorkExperienceDTO newWorkExperienceDTO);
     WorkExperience editWorkExperience(Long id, WorkExperienceDTO workExperienceDTO);
     Long deleteWorkExperience(Long id) throws Exception;
 
