@@ -86,7 +86,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf().disable()
                 .cors().configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:4200"));
+                    cors.setAllowedOrigins(List.of("http://localhost:4200", "https://angular-hosting-2651b.web.app/main"));
                     cors.setAllowedMethods(List.of("GET", "PUT", "POST", "DELETE", "PATCH"));
                     cors.addAllowedHeader("*");
                     cors.addExposedHeader("token");
