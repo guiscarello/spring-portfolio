@@ -38,6 +38,7 @@ public class SkillController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Skill> getSkills(){
+
         return this.skillService.getAllSkills();
     }
 

@@ -1,5 +1,8 @@
 package gs.springportfolio.config.security.classes;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class UsernameAndPasswordAuthenticationRequest {
 
     private String username;
@@ -18,6 +21,7 @@ public class UsernameAndPasswordAuthenticationRequest {
     }
 
     public String getPassword() {
+        //log.info(password);
         return password;
     }
 

@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Entity @Getter @Setter @NoArgsConstructor
 public class User{
 
     @Id
@@ -30,10 +30,17 @@ public class User{
             inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
     Set<Role> roles = new HashSet<>();
+
+    public User(String username, String password, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
     //private String address;
     //private String photo;
+
         /*@ManyToOne
     @JoinColumn(name = "city_id")
     private City city;*/
-
 }

@@ -4,12 +4,11 @@ import gs.springportfolio.models.User;
 import gs.springportfolio.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping(path = "/api")
 @RestController
 public class UserController {
 
@@ -21,5 +20,13 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
+    @PostMapping(path = "/users")
+    public ResponseEntity<User> saveUser(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("roles[]") String[] roles
+    ){
+        return ResponseEntity.ok(this.userService.saveUser(username, password, roles));
+    }
 
 }
