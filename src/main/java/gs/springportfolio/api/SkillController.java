@@ -2,8 +2,8 @@ package gs.springportfolio.api;
 
 import gs.springportfolio.dto.SkillDTO;
 import gs.springportfolio.models.Skill;
-import gs.springportfolio.services.PhotoFileManagerServiceImpl;
-import gs.springportfolio.services.SkillServiceImpl;
+import gs.springportfolio.services.files.FirebaseImageFileManagerService;
+import gs.springportfolio.services.skills.FirebaseSkillServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +23,22 @@ import java.util.List;
 @RestController
 public class SkillController {
 
-    private final  SkillServiceImpl skillService;
-    private final PhotoFileManagerServiceImpl photoFileManagerService;
+    //private final LocalSkillServiceImpl skillService;
+    //private final LocalImageFileManagerServiceImpl photoFileManagerService;
+    private final FirebaseSkillServiceImpl skillService;
+    private final FirebaseImageFileManagerService firebaseImageFileManagerService;
     @Value("${application.skill.photos.upload.folder}")
     private String uploadFolder;
 
     @Autowired
-    public SkillController(SkillServiceImpl skillService, PhotoFileManagerServiceImpl photoFileManagerService) {
+    public SkillController(//LocalSkillServiceImpl skillService,
+                          // LocalImageFileManagerServiceImpl photoFileManagerService,
+                           FirebaseImageFileManagerService firebaseImageFileManagerService,
+                           FirebaseSkillServiceImpl skillService
+                           ) {
         this.skillService = skillService;
-        this.photoFileManagerService = photoFileManagerService;
+        this.firebaseImageFileManagerService = firebaseImageFileManagerService;
+        //this.photoFileManagerService = photoFileManagerService;
     }
 
     @GetMapping(path = "/skills",
@@ -52,8 +59,8 @@ public class SkillController {
             @RequestParam("levelPercentage") String percentage,
             @RequestParam("color") String color
     ) {
-        String  skillLogoPath = photoFileManagerService.uploadFile(skillLogo, uploadFolder);
-
+        //String  skillLogoPath = photoFileManagerService.uploadFile(skillLogo, uploadFolder);
+        String  skillLogoPath = firebaseImageFileManagerService.uploadFile(skillLogo, uploadFolder);
         Skill newSkill = skillService.addNewSkill(
                 new Skill(
                         name,
@@ -63,6 +70,7 @@ public class SkillController {
                         color
                 )
         );
+
         return ResponseEntity.ok(newSkill);
     }
 
@@ -78,7 +86,8 @@ public class SkillController {
     ){
         SkillDTO skillDTO = new SkillDTO();
         if(skillLogo != null){
-            String skillLogoPath = photoFileManagerService.uploadFile(skillLogo, uploadFolder);
+            //String skillLogoPath = photoFileManagerService.uploadFile(skillLogo, uploadFolder);
+            String  skillLogoPath = firebaseImageFileManagerService.uploadFile(skillLogo, uploadFolder);
             skillDTO.setSkillLogoPath(skillLogoPath);
         }
         skillDTO.setName(name);

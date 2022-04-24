@@ -1,26 +1,27 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.skills;
 
 import gs.springportfolio.dto.SkillDTO;
 import gs.springportfolio.models.Skill;
 import gs.springportfolio.repos.SkillRepo;
+import gs.springportfolio.services.skills.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class SkillServiceImpl implements SkillService{
+public class LocalSkillServiceImpl implements SkillService {
 
     @Autowired
     private final SkillRepo skillRepo;
+
     @Value("${spring.server}")
     private String server;
     @Value("${spring.port}")
     private String port;
 
-    public SkillServiceImpl(SkillRepo skillRepo) {
+    public LocalSkillServiceImpl(SkillRepo skillRepo) {
         this.skillRepo = skillRepo;
     }
 

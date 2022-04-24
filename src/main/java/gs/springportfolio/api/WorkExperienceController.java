@@ -2,8 +2,8 @@ package gs.springportfolio.api;
 
 import gs.springportfolio.dto.WorkExperienceDTO;
 import gs.springportfolio.models.WorkExperience;
-import gs.springportfolio.services.PhotoFileManagerServiceImpl;
-import gs.springportfolio.services.WorkExperienceServiceImpl;
+import gs.springportfolio.services.files.FirebaseImageFileManagerService;
+import gs.springportfolio.services.wes.FirebaseWorkExperienceServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +18,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Slf4j
 @Getter @Setter
@@ -27,16 +25,24 @@ import java.util.Optional;
 @RestController
 public class WorkExperienceController {
 
-    private final WorkExperienceServiceImpl workExperienceServiceImpl;
-    private final PhotoFileManagerServiceImpl photoFileManagerService;
+    //private final LocalWorkExperienceServiceImpl workExperienceServiceImpl;
+    //private final LocalImageFileManagerServiceImpl photoFileManagerService;
+    private final FirebaseWorkExperienceServiceImpl workExperienceServiceImpl;
+    private final FirebaseImageFileManagerService firebaseImageFileManagerService;
 
     @Value("${application.work-experience.photos.upload.folder}")
     private String uploadFolder;
 
     @Autowired
-    public WorkExperienceController(WorkExperienceServiceImpl workExperienceServiceImpl, PhotoFileManagerServiceImpl photoFileManagerService) {
+    public WorkExperienceController(//LocalWorkExperienceServiceImpl localWorkExperienceServiceImpl,
+                                    //LocalImageFileManagerServiceImpl photoFileManagerService
+
+                                    FirebaseWorkExperienceServiceImpl workExperienceServiceImpl,
+                                    FirebaseImageFileManagerService firebaseImageFileManagerService) {
+        //this.workExperienceServiceImpl = workExperienceServiceImpl;
+        //this.photoFileManagerService = photoFileManagerService;
         this.workExperienceServiceImpl = workExperienceServiceImpl;
-        this.photoFileManagerService = photoFileManagerService;
+        this.firebaseImageFileManagerService = firebaseImageFileManagerService;
     }
 
     @GetMapping(path = "/work-experiences")
@@ -58,9 +64,11 @@ public class WorkExperienceController {
             @RequestParam("tel") String  tel,
             @RequestParam("currentWork") boolean isCurrentWork
     ) {
-        String  companyLogoPath = photoFileManagerService.uploadFile(companyLogo, uploadFolder);
+        //Upload file to local folder and get path to upload folder
+        //String  companyLogoPath = photoFileManagerService.uploadFile(companyLogo, uploadFolder);
+        //Upload file to firebase storage and get file path
+        String companyLogoPath = firebaseImageFileManagerService.uploadFile(companyLogo, uploadFolder);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate start = LocalDate.parse(startDate, formatter);
 
         WorkExperienceDTO workExperienceDTO = new WorkExperienceDTO();
         workExperienceDTO.setCompanyLogoPath(companyLogoPath);
@@ -96,7 +104,10 @@ public class WorkExperienceController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if(companyLogo != null) {
-            String companyLogoPath = photoFileManagerService.uploadFile(companyLogo, uploadFolder);
+            //Upload file to local folder and get path to upload folder
+            //String companyLogoPath = photoFileManagerService.uploadFile(companyLogo, uploadFolder);
+            //Upload file to firebase storage and get file path
+            String companyLogoPath = firebaseImageFileManagerService.uploadFile(companyLogo, uploadFolder);
             workExperienceDTO.setCompanyLogoPath(companyLogoPath);
         }
         if(!Objects.equals(endDate, "null")){

@@ -1,4 +1,4 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.projects;
 
 import gs.springportfolio.dto.ProjectDTO;
 import gs.springportfolio.models.Project;

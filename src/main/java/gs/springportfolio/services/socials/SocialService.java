@@ -1,4 +1,4 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.socials;
 
 import gs.springportfolio.models.Social;
 import org.springframework.stereotype.Service;

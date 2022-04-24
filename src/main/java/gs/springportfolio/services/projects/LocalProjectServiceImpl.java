@@ -1,4 +1,4 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.projects;
 
 import gs.springportfolio.dto.ProjectDTO;
 import gs.springportfolio.models.Project;
@@ -9,15 +9,13 @@ import gs.springportfolio.repos.ProjectRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class ProjectServiceImpl implements ProjectService{
+public class LocalProjectServiceImpl implements ProjectService{
 
     private final ProjectRepo projectRepo;
     private final ProjectPhotoRepo projectPhotoRepo;
@@ -26,7 +24,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Value("${spring.port}")
     private String port;
 
-    public ProjectServiceImpl(ProjectRepo projectRepo, ProjectPhotoRepo projectPhotoRepo) {
+    public LocalProjectServiceImpl(ProjectRepo projectRepo, ProjectPhotoRepo projectPhotoRepo) {
         this.projectRepo = projectRepo;
         this.projectPhotoRepo = projectPhotoRepo;
     }

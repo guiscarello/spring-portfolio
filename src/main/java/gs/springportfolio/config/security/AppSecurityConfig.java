@@ -74,6 +74,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
+    //For accessing uploads path in local
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
@@ -101,10 +102,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
                 .addFilterAfter(appAuthorizationFilter(),
                         JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
-                    .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
-                    .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
-                    .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/contacts/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .and()
                 .logout(logout -> logout
                         .logoutUrl("/api/logout")

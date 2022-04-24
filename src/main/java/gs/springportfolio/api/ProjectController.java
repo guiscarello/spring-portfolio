@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gs.springportfolio.dto.ProjectDTO;
 import gs.springportfolio.models.Project;
 import gs.springportfolio.models.Skill;
-import gs.springportfolio.services.PhotoFileManagerServiceImpl;
-import gs.springportfolio.services.ProjectServiceImpl;
-import gs.springportfolio.services.SkillServiceImpl;
+import gs.springportfolio.services.files.FirebaseImageFileManagerService;
+import gs.springportfolio.services.files.LocalImageFileManagerServiceImpl;
+import gs.springportfolio.services.projects.FirebaseProjectServiceImpl;
+import gs.springportfolio.services.projects.LocalProjectServiceImpl;
+import gs.springportfolio.services.skills.FirebaseSkillServiceImpl;
+import gs.springportfolio.services.skills.LocalSkillServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Type;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -35,18 +36,28 @@ import java.util.stream.Collectors;
 @RestController
 public class ProjectController {
 
-    private final ProjectServiceImpl projectService;
-    private final SkillServiceImpl skillService;
-    private final PhotoFileManagerServiceImpl photoFileManagerService;
+    //private final LocalProjectServiceImpl projectService;
+    //private final LocalSkillServiceImpl skillService;
+    //private final LocalImageFileManagerServiceImpl photoFileManagerService;
+    private final FirebaseProjectServiceImpl projectService;
+    private final FirebaseSkillServiceImpl skillService;
+    private final FirebaseImageFileManagerService firebaseImageFileManagerService;
     @Value("${application.project.photos.upload.folder}")
     private String uploadFolder;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public ProjectController(ProjectServiceImpl projectService, SkillServiceImpl skillService, PhotoFileManagerServiceImpl photoFileManagerService) {
+    public ProjectController(
+            FirebaseProjectServiceImpl projectService,
+            FirebaseSkillServiceImpl skillService,
+            FirebaseImageFileManagerService firebaseImageFileManagerService
+            //LocalProjectServiceImpl projectService,
+           // LocalSkillServiceImpl skillService,
+            //LocalImageFileManagerServiceImpl photoFileManagerService
+            ) {
         this.projectService = projectService;
         this.skillService = skillService;
-        this.photoFileManagerService = photoFileManagerService;
+        this.firebaseImageFileManagerService = firebaseImageFileManagerService;
     }
 
     @GetMapping(path = "/projects")
@@ -78,7 +89,7 @@ public class ProjectController {
 
         Set<Skill> projectSkills = this.skillService.getSkillsByIds(ids);
 
-        List<String> projectPhotosPaths= this.photoFileManagerService.uploadMultipleFiles(photos, uploadFolder);
+        List<String> projectPhotosPaths= this.firebaseImageFileManagerService.uploadMultipleFiles(photos, uploadFolder);
         return ResponseEntity.ok(projectService.addNewProject(
                 title,
                 LocalDate.parse(startDate, this.formatter),
@@ -90,16 +101,11 @@ public class ProjectController {
         );
     }
 
-    /*
-    *
-    * TODO: Edit projects controller, service, multiple files service
-    *
-     */
     @PutMapping(path = "/projects/{id}")
     public ResponseEntity<Project> editProject(
             @PathVariable Long id,
             /*
-            **TODO: editing of images, for now images cannot be edit
+            **TODO: edition of images, for now images cannot be edit
             *  https://www.baeldung.com/spring-jpa-soft-delete
              */
             /*@RequestParam("mainImage") MultipartFile mainImage,

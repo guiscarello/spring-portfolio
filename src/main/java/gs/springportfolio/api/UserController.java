@@ -1,7 +1,7 @@
 package gs.springportfolio.api;
 
 import gs.springportfolio.models.User;
-import gs.springportfolio.services.UserService;
+import gs.springportfolio.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

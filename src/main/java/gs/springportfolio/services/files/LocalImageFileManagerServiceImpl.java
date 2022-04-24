@@ -1,8 +1,6 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.files;
 
-import gs.springportfolio.models.ProjectPhoto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +13,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class PhotoFileManagerServiceImpl implements FileManagerService<String, List<String>>{
+public class LocalImageFileManagerServiceImpl implements FileManagerService<String, List<String>>{
 
     public String uploadFile(MultipartFile companyLogo, String uploadFolder) {
         Path path = Paths.get( uploadFolder);

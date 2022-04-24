@@ -1,45 +1,32 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.educations;
 
 import gs.springportfolio.dto.EducationDTO;
 import gs.springportfolio.models.Education;
 import gs.springportfolio.repos.EducationRepo;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class EducationServiceImpl implements EducationService {
+public class FirebaseEducationServiceImpl implements EducationService {
 
     private final EducationRepo educationRepo;
-    @Value("${spring.server}")
-    private String server;
-    @Value("${spring.port}")
-    private String port;
 
-    private EducationServiceImpl(EducationRepo educationRepo){
+    private FirebaseEducationServiceImpl(EducationRepo educationRepo){
         this.educationRepo = educationRepo;
     }
 
     @Override
     public List<Education> getAllEducations() {
-        List<Education> educations = this.educationRepo.findAll();
-        for(Education e : educations){
-            e.setInstitutionLogoPath( this.createPathToFile(e));
-        }
-        return educations;
+
+        return this.educationRepo.findAll();
     }
 
     @Override
     public Education addNewEducation(Education newEducation) {
 
-        Education education = this.educationRepo.save(newEducation);
-        education.setInstitutionLogoPath(
-                this.createPathToFile(education)
-        );
-        return education;
+        return this.educationRepo.save(newEducation);
 
     }
 
@@ -60,11 +47,7 @@ public class EducationServiceImpl implements EducationService {
         updateEducation.setTitle(educationDTO.getTitle());
         updateEducation.setDescription(educationDTO.getDescription());
 
-        Education education = this.educationRepo.save(updateEducation);
-        education.setInstitutionLogoPath(
-                this.createPathToFile(updateEducation)
-        );
-        return education;
+        return this.educationRepo.save(updateEducation);
     }
 
     @Override
@@ -78,13 +61,4 @@ public class EducationServiceImpl implements EducationService {
         }
     }
 
-    private String createPathToFile(Education education){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append(this.server)
-                .append(":")
-                .append(this.port)
-                .append(education.getInstitutionLogoPath());
-        return stringBuilder.toString();
-    }
 }

@@ -2,9 +2,8 @@ package gs.springportfolio.api;
 
 import gs.springportfolio.dto.EducationDTO;
 import gs.springportfolio.models.Education;
-import gs.springportfolio.models.WorkExperience;
-import gs.springportfolio.services.EducationServiceImpl;
-import gs.springportfolio.services.PhotoFileManagerServiceImpl;
+import gs.springportfolio.services.educations.FirebaseEducationServiceImpl;
+import gs.springportfolio.services.files.FirebaseImageFileManagerService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -26,23 +23,31 @@ import java.util.List;
 @RestController
 public class EducationController {
 
-    private final EducationServiceImpl educationServiceImpl;
-    private final PhotoFileManagerServiceImpl photoFileManagerService;
+    //private final LocalEducationServiceImpl localEducationServiceImpl;
+   // private final LocalImageFileManagerServiceImpl photoFileManagerService;
+    private final FirebaseEducationServiceImpl educationService;
+    private final FirebaseImageFileManagerService firebaseImageFileManagerService;
 
     @Value("${application.education.photos.upload.folder}")
     private String uploadFolder;
 
     @Autowired
-    public EducationController(EducationServiceImpl educationServiceImpl, PhotoFileManagerServiceImpl photoFileManagerService) {
-        this.educationServiceImpl = educationServiceImpl;
-        this.photoFileManagerService = photoFileManagerService;
+    public EducationController(FirebaseEducationServiceImpl educationService,
+                               FirebaseImageFileManagerService firebaseImageFileManagerService
+                               //LocalEducationServiceImpl localEducationServiceImpl,
+                               //LocalImageFileManagerServiceImpl photoFileManagerService
+                              ) {
+        //this.localEducationServiceImpl = localEducationServiceImpl;
+        //this.photoFileManagerService = photoFileManagerService;
+        this.educationService = educationService;
+        this.firebaseImageFileManagerService = firebaseImageFileManagerService;
     }
 
     @GetMapping(path = "/educations",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Education> getEducations(){
-        return this.educationServiceImpl.getAllEducations();
+        return this.educationService.getAllEducations();
     }
 
     @PostMapping(path = "/educations",
@@ -59,9 +64,9 @@ public class EducationController {
             @RequestParam("titleName") String titleName,
             @RequestParam("description") String description
     ) {
-        String  institutionLogoPath = photoFileManagerService.uploadFile(institutionLogo, uploadFolder);
+        String  institutionLogoPath = firebaseImageFileManagerService.uploadFile(institutionLogo, uploadFolder);
 
-        Education newEducation = educationServiceImpl.addNewEducation(
+        Education newEducation = educationService.addNewEducation(
                 new Education(
                         name,
                         institutionName,
@@ -93,7 +98,7 @@ public class EducationController {
     ){
         EducationDTO educationDTO = new EducationDTO();
         if(institutionLogo != null){
-            String institutionLogoPath = photoFileManagerService.uploadFile(institutionLogo, uploadFolder);
+            String institutionLogoPath = firebaseImageFileManagerService.uploadFile(institutionLogo, uploadFolder);
             educationDTO.setInstitutionLogoPath(institutionLogoPath);
         }
         educationDTO.setName(name);
@@ -105,14 +110,14 @@ public class EducationController {
         educationDTO.setYear(year);
         educationDTO.setType(type);
 
-        Education updatedEducation = this.educationServiceImpl.editEducation(id, educationDTO);
+        Education updatedEducation = this.educationService.editEducation(id, educationDTO);
 
         return ResponseEntity.ok(updatedEducation);
     }
 
     @DeleteMapping(path = "/educations/{id}")
     public ResponseEntity<Long> deleteEducation(@PathVariable Long id) throws Exception {
-        Long deletedEducationId = this.educationServiceImpl.deleteEducation(id);
+        Long deletedEducationId = this.educationService.deleteEducation(id);
         return ResponseEntity.ok(deletedEducationId);
     }
 

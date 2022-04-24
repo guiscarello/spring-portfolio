@@ -1,4 +1,4 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.files;
 
 import org.springframework.web.multipart.MultipartFile;
 

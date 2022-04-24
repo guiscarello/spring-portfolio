@@ -1,4 +1,4 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.users;
 
 import gs.springportfolio.models.Role;
 import gs.springportfolio.models.User;

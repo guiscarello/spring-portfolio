@@ -1,4 +1,4 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.skills;
 
 import gs.springportfolio.dto.SkillDTO;
 import gs.springportfolio.models.Education;

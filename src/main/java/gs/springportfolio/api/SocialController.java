@@ -1,7 +1,7 @@
 package gs.springportfolio.api;
 
 import gs.springportfolio.models.Social;
-import gs.springportfolio.services.SocialServiceImpl;
+import gs.springportfolio.services.socials.SocialServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

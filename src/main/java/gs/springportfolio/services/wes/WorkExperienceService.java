@@ -1,8 +1,7 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.wes;
 
 import gs.springportfolio.dto.WorkExperienceDTO;
 import gs.springportfolio.models.WorkExperience;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

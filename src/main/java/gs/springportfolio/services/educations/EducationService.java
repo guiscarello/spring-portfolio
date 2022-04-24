@@ -1,9 +1,7 @@
-package gs.springportfolio.services;
+package gs.springportfolio.services.educations;
 
 import gs.springportfolio.dto.EducationDTO;
 import gs.springportfolio.models.Education;
-import gs.springportfolio.models.WorkExperience;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
