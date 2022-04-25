@@ -22,7 +22,7 @@ public class AppUserDetailsJpaService implements AppUserDetailsDao {
     public Optional<AppUserDetails> selectUserDetailsByUsername(String username) {
         User  user = userRepo.findByUsername(username);
 
-        log.info("User roles: {}", user.getRoles());
+        //log.info("User roles: {}", user.getRoles());
         if (user == null){
             return Optional.empty();
         } else {
