@@ -19,7 +19,7 @@ public class LocalProjectServiceImpl implements ProjectService{
 
     private final ProjectRepo projectRepo;
     private final ProjectPhotoRepo projectPhotoRepo;
-    @Value("${spring.server}")
+    @Value("${app.server}")
     private String server;
     @Value("${spring.port}")
     private String port;

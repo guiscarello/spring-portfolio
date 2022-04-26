@@ -12,7 +12,7 @@ import java.util.List;
 public class LocalEducationServiceImpl implements EducationService {
 
     private final EducationRepo educationRepo;
-    @Value("${spring.server}")
+    @Value("${app.server}")
     private String server;
     @Value("${spring.port}")
     private String port;

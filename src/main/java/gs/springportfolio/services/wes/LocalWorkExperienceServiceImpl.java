@@ -13,7 +13,7 @@ import java.util.List;
 public class LocalWorkExperienceServiceImpl implements WorkExperienceService {
 
     private final WorkExperienceRepo workExperienceRepo;
-    @Value("${spring.server}")
+    @Value("${app.server}")
     private String server;
     @Value("${spring.port}")
     private String port;

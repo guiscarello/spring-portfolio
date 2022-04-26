@@ -16,7 +16,7 @@ public class LocalSkillServiceImpl implements SkillService {
     @Autowired
     private final SkillRepo skillRepo;
 
-    @Value("${spring.server}")
+    @Value("${app.server}")
     private String server;
     @Value("${spring.port}")
     private String port;
