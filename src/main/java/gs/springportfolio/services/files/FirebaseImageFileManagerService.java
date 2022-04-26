@@ -91,8 +91,8 @@ public class FirebaseImageFileManagerService implements FileManagerService<Strin
 
     @PostConstruct
     public void initializeFirebaseApp() throws IOException {
-        FileInputStream credentials = new FileInputStream(environment.getRequiredProperty("GOOGLE_APPLICATION_CREDENTIALS"));
-        //InputStream credentials = this.getFirebaseCredentials();
+        //FileInputStream credentials = new FileInputStream(environment.getRequiredProperty("GOOGLE_APPLICATION_CREDENTIALS"));
+        InputStream credentials = this.getFirebaseCredentials();
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(credentials))
                 .setStorageBucket(this.projectId + ".appspot.com")
