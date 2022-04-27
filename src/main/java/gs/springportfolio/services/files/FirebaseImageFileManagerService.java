@@ -91,8 +91,8 @@ public class FirebaseImageFileManagerService implements FileManagerService<Strin
 
     @PostConstruct
     public void initializeFirebaseApp() throws IOException {
-        //FileInputStream credentials = new FileInputStream(environment.getRequiredProperty("GOOGLE_APPLICATION_CREDENTIALS"));
-        InputStream credentials = this.getFirebaseCredentials();
+        FileInputStream credentials = new FileInputStream(environment.getRequiredProperty("GOOGLE_APPLICATION_CREDENTIALS"));
+        //InputStream credentials = this.getFirebaseCredentials();
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(credentials))
                 .setStorageBucket(this.projectId + ".appspot.com")
@@ -112,9 +112,7 @@ public class FirebaseImageFileManagerService implements FileManagerService<Strin
         firebaseCredentials.setClient_id(environment.getRequiredProperty("FIREBASE_CLIENT_ID"));
         firebaseCredentials.setClient_x509_cert_url(environment.getRequiredProperty("FIREBASE_CLIENT_X509_CERT_URL"));
         firebaseCredentials.setPrivate_key_id(environment.getRequiredProperty("FIREBASE_PRIVATE_KEY_ID"));
-        firebaseCredentials.setPrivate_key(environment.getRequiredProperty("FIREBASE_PRIVATE_KEY"));
-
-        //firebaseCredentials.setPrivate_key(environment.getRequiredProperty("FIREBASE_PRIVATE_KEY").replace("\\n", "\n"));
+        firebaseCredentials.setPrivate_key(environment.getRequiredProperty("FIREBASE_PRIVATE_KEY").replace("\\n", "\n"));
 
         ObjectMapper mapper = new ObjectMapper();
         String credentials = mapper.writeValueAsString(firebaseCredentials);
