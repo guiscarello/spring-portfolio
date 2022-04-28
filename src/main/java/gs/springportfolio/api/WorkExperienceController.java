@@ -76,7 +76,7 @@ public class WorkExperienceController {
         workExperienceDTO.setCurrentWork(isCurrentWork);
         workExperienceDTO.setDescription(description);
         workExperienceDTO.setStartDate(LocalDate.parse(startDate, formatter));
-        if(!Objects.equals(endDate, "" ) && endDate != null){
+        if(endDate != null && !endDate.isBlank() && !endDate.isEmpty()){
             workExperienceDTO.setEndDate(LocalDate.parse(endDate, formatter));
         }
 
