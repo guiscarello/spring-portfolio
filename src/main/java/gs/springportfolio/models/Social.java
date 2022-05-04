@@ -1,6 +1,7 @@
 package gs.springportfolio.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 
 @Getter @Setter
 @Entity
+@NoArgsConstructor
 public class Social {
 
     @Id
@@ -19,4 +21,9 @@ public class Social {
     private String bsClassIcon;
     private String link;
 
+    public Social(String name, String bootstrapClass, String link) {
+        this.name = name;
+        this.bsClassIcon = bootstrapClass;
+        this.link = link;
+    }
 }

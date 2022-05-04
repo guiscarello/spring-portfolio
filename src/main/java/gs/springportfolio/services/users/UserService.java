@@ -9,6 +9,6 @@ public interface UserService {
     List<User> getUsers();
     User saveUser(String username, String password, String[] roles);
     User editUser(Long id, User user);
-    String deleteUser(Long id);
+    Long deleteUser(Long id) throws Exception;
 
 }

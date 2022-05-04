@@ -18,4 +18,19 @@ public class SocialServiceImpl implements SocialService{
         return this.socialRepo.findAll();
     }
 
+    @Override
+    public Social createSocialInfo(Social newSocial) {
+        return this.socialRepo.save(newSocial);
+    }
+
+    @Override
+    public Long deleteSocialInfo(Long id) throws Exception {
+        try{
+            this.socialRepo.deleteById(id);
+            return id;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("Something has gone wrong!", e);
+        }
+    }
 }

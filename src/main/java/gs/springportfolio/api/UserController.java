@@ -29,4 +29,11 @@ public class UserController {
         return ResponseEntity.ok(this.userService.saveUser(username, password, roles));
     }
 
+    @DeleteMapping(path = "/users/{id}")
+    public ResponseEntity<Long> saveUser(
+            @PathVariable("id") Long id
+    ) throws Exception {
+        return ResponseEntity.ok(this.userService.deleteUser(id));
+    }
+
 }

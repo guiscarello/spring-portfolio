@@ -49,11 +49,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User editUser(Long id, User user) {
+        //TODO
         return null;
     }
 
     @Override
-    public String deleteUser(Long id) {
-        return null;
+    public Long deleteUser(Long id) throws Exception {
+        try{
+            this.userRepo.deleteById(id);
+            return id;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("Something has gone wrong!", e);
+        }
     }
 }
