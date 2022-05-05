@@ -31,6 +31,8 @@ public class ContactServiceImpl implements ContactService<RecaptchaResponse>{
 
     public void sendEmail(String name, String email, String subject, String messageContent) throws MessagingException {
         Properties prop = new Properties();
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.debug", "true");
         prop.put("mail.smtp.auth", true);
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "smtp.zoho.com");
