@@ -2,11 +2,13 @@ package gs.springportfolio.services.socials;
 
 import gs.springportfolio.models.Social;
 import gs.springportfolio.repos.SocialRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class SocialServiceImpl implements SocialService{
 
@@ -24,13 +26,8 @@ public class SocialServiceImpl implements SocialService{
     }
 
     @Override
-    public Long deleteSocialInfo(Long id) throws Exception {
-        try{
-            this.socialRepo.deleteById(id);
-            return id;
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new Exception("Something has gone wrong!", e);
-        }
+    public Long deleteSocialInfo(Long id) {
+        this.socialRepo.deleteById(id);
+        return id;
     }
 }

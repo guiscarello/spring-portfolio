@@ -33,7 +33,7 @@ public class ContactController {
     }
 
     @PostMapping(path = "/contacts", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<?> getContactInfo(
+    public ResponseEntity<?> sendEmail(
             @RequestParam(name = "token") String token,
             @RequestParam(name = "name") String name,
             @RequestParam(name = "email") String email,

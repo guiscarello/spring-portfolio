@@ -2,12 +2,14 @@ package gs.springportfolio.api;
 
 import gs.springportfolio.models.Social;
 import gs.springportfolio.services.socials.SocialServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RequestMapping(path = "/api")
 @RestController()
 public class SocialController {
@@ -21,7 +23,7 @@ public class SocialController {
     }
 
     @PostMapping(path = "/socials")
-    public ResponseEntity<Social> getSocialInfo(
+    public ResponseEntity<Social> insertSocialInfo(
             @RequestParam("name") String name,
             @RequestParam("class") String bootstrapClass,
             @RequestParam("link") String link
